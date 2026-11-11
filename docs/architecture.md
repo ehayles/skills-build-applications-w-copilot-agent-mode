@@ -30,13 +30,13 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Keep routed Bootstrap views and use the shared API client with accessible loading, empty, success, and error states.
+- Logic tier decision: Keep routes thin and implement validation and business behavior in explicit Express service functions; retain deliberate 4xx responses and no authentication.
+- Data tier decision: Require meaningful Mongoose fields and references; preserve stable, non-destructive seed upserts and membership reconciliation.
+- Activity tracking approach: Validate input and existing user/team IDs before writing; award one point per minute and set the occurrence time on the server.
+- Team management approach: Validate name, mascot, and existing member IDs, and preserve submitted team fields and members.
+- Leaderboard approach: Sum persisted activity points per team, sort descending with deterministic ties, and assign 1-based ranks.
+- Workout suggestions approach: Resolve the email to a user, inspect their latest activities, rank matching workout focuses ahead of other workouts, and explain each recommendation; return 404 for unknown users.
 
 ## Test plan
 
@@ -47,3 +47,11 @@ Record the commands you run and what each failure means.
 - Frontend command: `npm test --prefix octofit-tracker/frontend`
 - Backend build command: `npm run build --prefix octofit-tracker/backend`
 - Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+
+### Verification results
+
+- `npm test --prefix octofit-tracker/backend`: 12 tests passed, including required schema fields, non-destructive seed idempotency, API behavior, invalid inputs, and deterministic leaderboard ties. The original failures were missing schema validation and placeholder service behavior.
+- `npm test --prefix octofit-tracker/frontend`: 19 tests passed, including API-backed content, accessible request states, activity/team submission, submission errors, and changing the workout email. The original failures were placeholder views without API requests.
+- Both build commands above passed with no TypeScript errors.
+- `node .github/scripts/grade-step.mjs step5-final`: passed composition checks, protected contract verification, all contract suites, and both builds.
+- The separate maintainer exercise-validation suite previously reported four failures caused by the README template-badge owner/name mismatch. That unrelated metadata issue is unchanged.
