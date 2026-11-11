@@ -6,3 +6,16 @@ export async function getJson<T>(path: string): Promise<T> {
   if (!response.ok) throw new Error(`Request failed with ${response.status}`);
   return response.json() as Promise<T>;
 }
+
+export async function postJson<T>(path: string, input: unknown): Promise<T> {
+  const response = await fetch(`${apiBaseUrl}${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({})) as { error?: string };
+    throw new Error(body.error ?? `Request failed with ${response.status}`);
+  }
+  return response.json() as Promise<T>;
+}
