@@ -55,3 +55,14 @@ Record the commands you run and what each failure means.
 - Both build commands above passed with no TypeScript errors.
 - `node .github/scripts/grade-step.mjs step5-final`: passed composition checks, protected contract verification, all contract suites, and both builds.
 - The separate maintainer exercise-validation suite previously reported four failures caused by the README template-badge owner/name mismatch. That unrelated metadata issue is unchanged.
+
+### Final integration verification (2026-11-11)
+
+- Reran the five commands in the test plan: data contracts passed (5 tests), API contracts passed (4 tests), frontend tests passed (19 tests), and both production builds passed.
+- Confirmed MongoDB on 27017, Express on 8000, and Vite on 5173. Refreshed the representative fixtures with `npm run seed --prefix octofit-tracker/backend` without clearing collections.
+- Inspected all four live capability views in Chromium at 1440px and 390px widths. Seeded data rendered without horizontal overflow or browser runtime errors; reviewed desktop, mobile, and error screenshots.
+- Submitted a five-minute walk through the activity form using existing user/team IDs. The API returned 201 with five points, the activity list refreshed, and the leaderboard displayed the updated Octocats total of 75 points.
+- Requested workout suggestions for `nobody@example.com`: the API returned 404 and the UI displayed an accessible error alert. Retrying with `mona@example.com` restored suggestions, including Intervals.
+- Protected grading contracts remained unchanged. Reviewed route/service separation, deliberate invalid-input responses, stable seed keys and membership reconciliation, shared frontend API usage, and environment-aware URLs.
+- Remaining limitations: authentication is intentionally excluded. The contracts require existing user/team references, not cross-team membership enforcement; that broader policy remains a follow-up rather than an additional API restriction.
+- The implementation had already reached main before Step 5. This final verification record supplies a reviewable follow-up pull request; final grading must run on its merged event.
